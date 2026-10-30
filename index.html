@@ -40,6 +40,9 @@ input[type=text]{width:100%;font:inherit;color:inherit;background:var(--card);bo
 .opt input:focus-visible+span,.tile:focus-visible,.go:focus-visible,input[type=text]:focus-visible{outline:3px solid #8E6BB0;outline-offset:2px}
 #err{color:#A32A2A;font-weight:500;margin:0 0 12px;min-height:1.7em}
 .note{font-size:14px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px;margin-top:8px}
+#qrWrap{margin:16px 0}
+#qr{display:inline-block;background:#fff;padding:12px;border:1.5px solid var(--line);border-radius:14px}
+#qr img,#qr canvas{display:block;max-width:100%;height:auto}
 pre{white-space:pre-wrap;word-break:break-all;user-select:all;-webkit-user-select:all;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:14px;font:15px/1.8 inherit;font-family:inherit;margin:16px 0 0}
 </style>
 </head>
@@ -79,7 +82,8 @@ pre{white-space:pre-wrap;word-break:break-all;user-select:all;-webkit-user-selec
 
   <section id="done" hidden>
     <h2>預約已送出</h2>
-    <p>這個日期已為你保留。接下來會自動開啟 LINE，請在 LINE 裡按「傳送」，官方帳號會回覆付款方式。如果沒有自動跳轉，請按下面的按鈕；或複製訊息後到官方帳號貼上送出。</p>
+    <p id="doneText"></p>
+    <div id="qrWrap" hidden><div id="qr"></div><p class="hint">用手機掃描，LINE 會開啟並帶入預約資料。</p></div>
     <pre id="msg"></pre>
     <button class="go" id="copy" type="button">複製訊息</button>
     <a class="go alt" id="line" target="_blank" rel="noopener">前往 LINE 官方帳號</a>
@@ -87,6 +91,7 @@ pre{white-space:pre-wrap;word-break:break-all;user-select:all;-webkit-user-selec
   </section>
 </main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 const API_URL = 'https://script.google.com/macros/s/AKfycbz8Uruhxi96Br3d2EgbiGCdExKdWWieNZtFJbWyaIg29dSxFVJC31Ysalsz82Xm4KlQ/exec';
 const LINE_URL = 'https://lin.ee/wM0FnDf';
@@ -161,14 +166,27 @@ $('#f').addEventListener('submit', async ev => {
       '溝通類型：' + type + '\n' +
       '預約編號：' + j.id;
     const msgText = $('#msg').textContent;
-    const link = LINE_ID
+    // 帶入訊息的連結只在手機上可靠；電腦版改成「複製訊息＋開啟官方帳號」
+    const mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const useAuto = LINE_ID && mobile;
+    const oaLink = LINE_ID
       ? 'https://line.me/R/oaMessage/' + encodeURIComponent(LINE_ID).replace('%40', '@') + '/?' + encodeURIComponent(msgText)
       : LINE_URL;
+    const link = useAuto ? oaLink : LINE_URL;
     $('#line').href = link;
-    $('#line').textContent = LINE_ID ? '前往 LINE，帶入預約資料' : '前往 LINE 官方帳號';
+    $('#line').textContent = useAuto ? '前往 LINE，帶入預約資料' : '前往 LINE 官方帳號';
+    $('#doneText').textContent = useAuto
+      ? '這個日期已為你保留。接下來會自動開啟 LINE，請在 LINE 裡按「傳送」，官方帳號會回覆付款方式。如果沒有自動跳轉，請按下面的按鈕；或複製訊息後到官方帳號貼上送出。'
+      : '這個日期已為你保留。請用手機掃描下方 QR Code，LINE 會自動帶入預約資料，按「傳送」即可，官方帳號會回覆付款方式。也可以按「複製訊息」，再到 LINE 官方帳號貼上送出。';
+    // 電腦版：顯示 QR Code，用手機掃描後開啟 LINE 並帶入訊息
+    if (!mobile && LINE_ID && window.QRCode) {
+      $('#qr').innerHTML = '';
+      new QRCode($('#qr'), {text: oaLink, width: 240, height: 240, correctLevel: QRCode.CorrectLevel.L});
+      $('#qrWrap').hidden = false;
+    }
     $('#f').hidden = true; $('#done').hidden = false;
     window.scrollTo(0, 0);
-    if (LINE_ID) setTimeout(() => { location.href = link; }, 800);
+    if (useAuto) setTimeout(() => { location.href = link; }, 800);
   }catch(e){
     err.textContent = '連線失敗，請檢查網路後再試一次';
   }finally{
