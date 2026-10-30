@@ -118,7 +118,7 @@ function renderDates(){
 
 async function load(){
   try{
-    const r = await fetch(API_URL);
+    const r = await fetch(API_URL + '?t=' + Date.now(), {cache: 'no-store'});
     const j = await r.json();
     slots = j.slots || [];
     if(picked && !slots.some(s => s.date === picked.date && s.left > 0)) picked = null;
