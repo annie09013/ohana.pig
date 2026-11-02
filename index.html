@@ -40,6 +40,8 @@ input[type=text]{width:100%;font:inherit;color:inherit;background:var(--card);bo
 .opt input:focus-visible+span,.tile:focus-visible,.go:focus-visible,input[type=text]:focus-visible{outline:3px solid #8E6BB0;outline-offset:2px}
 #err{color:#A32A2A;font-weight:500;margin:0 0 12px;min-height:1.7em}
 .note{font-size:14px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px;margin-top:8px}
+#doneText{white-space:pre-line}
+.go.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
 #qrWrap{margin:16px 0}
 #qr{display:inline-block;background:#fff;padding:12px;border:1.5px solid var(--line);border-radius:14px}
 #qr img,#qr canvas{display:block;max-width:100%;height:auto}
@@ -49,7 +51,7 @@ pre{white-space:pre-wrap;word-break:break-all;user-select:all;-webkit-user-selec
 <body>
 <main>
   <h1>Ohana 動物溝通</h1>
-  <p class="lead">預約專區。選好日期與方案後送出，名額會先為你保留。</p>
+  <p class="lead">嗨～歡迎來找小豬搭起溝通橋樑，跟你的孩子聊聊天 🐷🤍<br>選好喜歡的日期與溝通方案，送出預約後，小豬就會先幫你保留時間囉！<br>期待和你們見面 ♡</p>
 
   <form id="f" novalidate>
     <fieldset>
@@ -72,7 +74,7 @@ pre{white-space:pre-wrap;word-break:break-all;user-select:all;-webkit-user-selec
     <fieldset>
       <legend><label for="name">你的 LINE 名稱</label></legend>
       <input type="text" id="name" maxlength="50" autocomplete="off">
-      <p class="hint">請填和 LINE 上顯示一致的名稱，方便我對照。</p>
+      <p class="hint">請填寫與 LINE 顯示相同的名稱，方便小豬確認你的預約資料唷 ♡</p>
     </fieldset>
 
     <p id="err" role="alert"></p>
@@ -88,6 +90,7 @@ pre{white-space:pre-wrap;word-break:break-all;user-select:all;-webkit-user-selec
     <button class="go" id="copy" type="button">複製訊息</button>
     <a class="go alt" id="line" target="_blank" rel="noopener">前往 LINE 官方帳號</a>
     <p class="hint" id="copyhint"></p>
+    <button class="go ghost" id="again" type="button">預約下一個日期</button>
   </section>
 </main>
 
@@ -99,7 +102,7 @@ const LINE_ID = '@160ujzhn'; // 填官方帳號的 Basic ID，例如 '@123abcde'
 const PLANS = {'30':'30分鐘 $1000','60':'60分鐘 $1800'};
 const WD = ['日','一','二','三','四','五','六'];
 const $ = s => document.querySelector(s);
-let slots = [], picked = null;
+let slots = [], picked = null, redirectTimer;
 
 function parts(date){
   const [y,m,d] = date.split('-').map(Number);
@@ -177,7 +180,7 @@ $('#f').addEventListener('submit', async ev => {
     $('#line').textContent = useAuto ? '前往 LINE，帶入預約資料' : '前往 LINE 官方帳號';
     $('#doneText').textContent = useAuto
       ? '這個日期已為你保留。接下來會自動開啟 LINE，請在 LINE 裡按「傳送」，官方帳號會回覆付款方式。如果沒有自動跳轉，請按下面的按鈕；或複製訊息後到官方帳號貼上送出。'
-      : '這個日期已為你保留。請用手機掃描下方 QR Code，LINE 會自動帶入預約資料，按「傳送」即可，官方帳號會回覆付款方式。也可以按「複製訊息」，再到 LINE 官方帳號貼上送出。';
+      : '你的預約時段已經幫你保留好囉！🐷🤍\n請用手機掃描下方 QR Code，LINE 就會自動帶入預約資料，只要按下「傳送」就可以囉！\n小豬收到訊息並確認後，會再回覆你付款方式 ♡\n也可以點選「複製訊息」，到 LINE 官方帳號貼上傳送，一樣可以完成確認唷！';
     // 電腦版：顯示 QR Code，用手機掃描後開啟 LINE 並帶入訊息
     if (!mobile && LINE_ID && window.QRCode) {
       $('#qr').innerHTML = '';
@@ -186,7 +189,7 @@ $('#f').addEventListener('submit', async ev => {
     }
     $('#f').hidden = true; $('#done').hidden = false;
     window.scrollTo(0, 0);
-    if (useAuto) setTimeout(() => { location.href = link; }, 800);
+    if (useAuto) redirectTimer = setTimeout(() => { location.href = link; }, 800);
   }catch(e){
     err.textContent = '連線失敗，請檢查網路後再試一次';
   }finally{
@@ -204,6 +207,16 @@ $('#copy').onclick = async () => {
     const s = getSelection(); s.removeAllRanges(); s.addRange(r);
     $('#copyhint').textContent = '無法自動複製，訊息已選取，請長按後選「拷貝」。';
   }
+};
+
+$('#again').onclick = () => {
+  clearTimeout(redirectTimer);
+  $('#done').hidden = true; $('#f').hidden = false;
+  $('#qrWrap').hidden = true; $('#qr').innerHTML = ''; $('#copyhint').textContent = '';
+  document.querySelectorAll('input[type=radio]').forEach(i => { i.checked = false; });
+  picked = null; $('#err').textContent = '';
+  load(); // 重新讀取名額，剛預約的日期會顯示已額滿
+  window.scrollTo(0, 0);
 };
 
 load();
