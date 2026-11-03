@@ -10,9 +10,9 @@ const SITE_CONFIG = {
 
   // 照片路徑：放進 images/ 資料夾後，填入檔名即可。留空 "" 會顯示柔和佔位圖
   PHOTOS: {
-    tata: "images/tata.jpg",
-    qiaohu: "images/qiaohu.jpg",
-    mimi: "images/mimi.jpg",
+    tata: "images/tata.jpg?v=2",
+    qiaohu: "images/qiaohu.jpg?v=2",
+    mimi: "images/mimi.jpg?v=2",
     general: "",   // 一般溝通插畫，例："images/general.jpg"（留空＝使用內建線稿）
     memorial: ""   // 離世溝通插畫，例："images/memorial.jpg"
   }

@@ -5,7 +5,7 @@
   document.querySelectorAll("[data-photo]").forEach(box => {
     const src = C.PHOTOS[box.dataset.photo]; if (!src) return;
     const orig = box.innerHTML, img = new Image();
-    img.alt = box.dataset.alt || ""; img.loading = "lazy";
+    img.alt = box.dataset.alt || "";
     img.onload = () => { box.innerHTML = ""; box.appendChild(img); box.classList.add("has-img"); };
     img.onerror = () => { box.innerHTML = orig; };   // 圖片讀不到時，保留佔位圖
     img.src = src;
