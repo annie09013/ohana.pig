@@ -1,0 +1,37 @@
+# Pages CMS 設定：讓小豬可以用後台寫文章
+media:
+  input: images/articles
+  output: /images/articles
+
+content:
+  - name: articles
+    label: 溝通紀錄分享
+    type: collection
+    path: _articles
+    view:
+      fields: [title, date]
+    fields:
+      - name: title
+        label: 文章標題
+        type: string
+        required: true
+      - name: date
+        label: 發布日期
+        type: date
+        required: true
+      - name: cover
+        label: 封面照片（會顯示在文章列表和文章最上方）
+        type: image
+      - name: description
+        label: 一句話簡介（顯示在文章列表，可不填）
+        type: text
+      - name: slug
+        label: 文章網址名稱（可不填；若要填，請用英文小寫和 - ，例如 tata-story）
+        type: string
+      - name: published
+        label: 公開這篇文章（取消勾選＝先存成草稿，不會出現在網站上）
+        type: boolean
+        default: true
+      - name: body
+        label: 文章內容
+        type: rich-text
