@@ -1,0 +1,24 @@
+# 網站基本設定（Jekyll，GitHub Pages 會自動使用）
+title: OHANA.PIG 動物溝通
+description: 用溫柔，陪你更靠近孩子一點點。
+url: https://www.hello-ohanapig.com
+timezone: Asia/Taipei
+markdown: kramdown
+future: true
+
+# 文章都放在 _articles 資料夾，網址會是 /blog/文章網址名稱/
+collections:
+  articles:
+    output: true
+    permalink: /blog/:slug/
+
+defaults:
+  - scope:
+      path: ""
+      type: articles
+    values:
+      layout: article
+
+exclude:
+  - .pages.yml
+  - README.md

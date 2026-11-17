@@ -1,0 +1,16 @@
+---
+layout: base
+---
+<article class="post"><div class="wrap narrow">
+ <p class="tag"><a href="/blog/">← 小豬的文章</a></p>
+ <h1>{{ page.title }}</h1>
+ <p class="post-date">{{ page.date | date: "%Y 年 %-m 月 %-d 日" }}</p>
+ {% if page.cover %}<img class="post-cover" src="{{ page.cover }}" alt="">{% endif %}
+ <div class="prose">
+{{ content }}
+ </div>
+ <div class="post-end">
+  <p>想和你的毛孩也聊聊天嗎？♡</p>
+  <div class="btns"><a class="btn" data-link="COMMUNICATION_BOOKING_URL" href="/booking/">預約毛孩溝通</a><a class="btn ghost" href="/blog/">看更多文章</a></div>
+ </div>
+</div></article>

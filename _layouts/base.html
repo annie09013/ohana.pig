@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% if page.title %}{{ page.title }}｜{% endif %}OHANA.PIG 動物溝通・小豬</title>
+{% assign desc = page.description | default: page.excerpt | default: site.description | strip_html | strip_newlines | truncate: 120 %}
+<meta name="description" content="{{ desc | escape }}">
+<meta property="og:title" content="{{ page.title | default: site.title | escape }}">
+<meta property="og:description" content="{{ desc | escape }}">
+<meta property="og:type" content="{% if page.collection == 'articles' %}article{% else %}website{% endif %}">
+{% if page.cover %}<meta property="og:image" content="{{ site.url }}{{ page.cover }}">{% endif %}
+<meta name="theme-color" content="#D9C4B2">
+<link rel="icon" href="/images/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Huninn&family=Noto+Sans+TC:wght@400;500&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add("js")</script>
+<link rel="stylesheet" href="/css/style.css?v=4">
+</head>
+<body>
+<header><div class="wrap bar">
+ <a class="logo" href="/"><img src="/images/logo.jpg" alt="" width="38" height="38">OHANA.PIG</a>
+ <button id="menuBtn" aria-label="開啟選單" aria-expanded="false" aria-controls="nav"><span></span><span></span></button>
+ <nav id="nav" aria-label="主要選單"><ul>
+  <li><a href="/#about">認識小豬</a></li><li><a href="/#services">服務介紹</a></li>
+  <li><a href="/#faq">預約須知</a></li><li><a href="/#learn">課程</a></li>
+  <li><a href="/blog/">小豬的文章</a></li><li><a href="/#contact">聯絡</a></li>
+ </ul></nav>
+</div></header>
+
+<main id="top">
+{{ content }}
+</main>
+
+<footer><div class="wrap">
+ <img src="/images/logo.jpg" alt="" width="64" height="64" class="flogo">
+ <span class="logo">OHANA.PIG</span>Animal Communication<br>用溫柔，陪你更靠近孩子一點點。
+</div></footer>
+<a class="fixed-book" data-link="COMMUNICATION_BOOKING_URL" href="/booking/">預約毛孩溝通 ♡</a>
+<script src="/js/config.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>
