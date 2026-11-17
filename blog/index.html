@@ -1,18 +1,18 @@
 ---
 layout: base
-title: 小豬的文章
-description: 動物溝通的小故事、毛孩們想說的話，還有小豬在男子宿舍裡的日常。
+title: 溝通紀錄分享
+description: 小豬的動物溝通紀錄分享，聽聽毛孩們藏在心裡、想對家長說的話。
 ---
 <section class="blog-head"><div class="wrap narrow center">
  <p class="tag">OHANA.PIG · Stories</p>
- <h1>小豬的文章</h1>
- <p class="sub">動物溝通裡的小故事、毛孩們想說的話，<br>還有小豬在男子宿舍裡的日常 ♡</p>
+ <h1>溝通紀錄分享</h1>
+ <p class="sub">每一次溝通裡，毛孩們想說的話，<br>還有那些讓人又哭又笑的小故事 ♡</p>
 </div></section>
 
 <section class="blog-list-wrap"><div class="wrap">
  {% assign posts = site.articles | sort: "date" | reverse %}
  {% if posts.size == 0 %}
- <p class="center sub">文章準備中，敬請期待 ♡</p>
+ <p class="center sub">溝通紀錄整理中，敬請期待 ♡</p>
  {% else %}
  <div class="blog-list">
   {% for post in posts %}
