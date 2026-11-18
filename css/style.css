@@ -212,3 +212,143 @@ nav .sub{display:none;list-style:none}
  .has-sub.open>.sub{display:block;width:100%;padding:0 0 6px 16px;border-left:2px solid var(--pink);margin-bottom:4px}
  nav .sub a{padding:8px 0;font-size:14px;color:var(--sub)}
 }
+
+/* ===== 動物溝通課程介紹頁（/course/）===== */
+.cp-hero{padding:72px 0 84px}
+.cp-hero h1{font-size:clamp(30px,7vw,48px);margin:8px 0 26px}
+.cp-lead{font-size:17px;color:var(--sub)}
+.cp-asks{list-style:none;padding:0;margin:18px auto 34px;display:grid;gap:12px;max-width:520px}
+.cp-asks li{background:var(--card);border-radius:999px;padding:12px 24px;font-size:clamp(16px,3.6vw,19px);box-shadow:0 1px 0 rgba(128,104,90,.15)}
+.cp-asks li:nth-child(even){margin-left:clamp(0px,6vw,48px)}
+.cp-asks li:nth-child(odd){margin-right:clamp(0px,6vw,48px)}
+.js .cp-asks li{animation:rise .9s ease both}
+.js .cp-asks li:nth-child(2){animation-delay:.35s}
+.js .cp-asks li:nth-child(3){animation-delay:.7s}
+.js .cp-asks li:nth-child(4){animation-delay:1.05s}
+.cp-body p+p{margin-top:.7em}
+.cp-quote{font-size:clamp(17px,3.6vw,21px);line-height:1.9;margin:1.2em 0!important}
+.cp-em{margin:1.1em 0!important}
+.cp-no{font-size:12.5px;letter-spacing:.16em;color:var(--sub);margin-bottom:6px}
+.cp-story{display:grid;grid-template-columns:.8fr 1.2fr;gap:48px;align-items:start}
+.cp-story-side{position:sticky;top:96px}
+.cp-mini-ph{margin-top:22px;aspect-ratio:4/5;max-width:260px;border-radius:120px 120px 22px 22px;background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--sub);font-size:13px;overflow:hidden}
+.cp-mini-ph svg{width:46px;height:46px;color:var(--grey)}
+.cp-mini-ph img{width:100%;height:100%;object-fit:cover}
+.cp-letter{background:var(--card);border-radius:var(--r);padding:clamp(22px,4vw,34px);margin:26px 0;position:relative}
+.cp-letter::before{content:"";position:absolute;left:clamp(22px,4vw,34px);top:-7px;width:48px;height:14px;border-radius:7px;background:var(--grey);opacity:.45}
+.cp-letter p+p{margin-top:.75em}
+@media(max-width:820px){.cp-story{grid-template-columns:1fr;gap:10px}.cp-story-side{position:static}.cp-mini-ph{max-width:180px;margin:14px 0 8px}}
+.cp-worries .card{text-align:center;padding:30px 22px}
+.cp-worries p{font-size:17px}
+.cp-dot{display:inline-flex;width:34px;height:34px;border-radius:50%;background:var(--pink);color:var(--btn);align-items:center;justify-content:center;margin-bottom:10px;font-size:16px}
+.cp-flow p+p{margin-top:.8em}
+.cp-ways{list-style:none;padding:0;margin:20px 0;display:grid;gap:10px}
+.cp-ways li{padding:10px 18px;border-left:3px solid var(--grey);background:rgba(248,244,238,.55);border-radius:0 14px 14px 0}
+.cp-courses{align-items:stretch}
+.cp-course{display:flex;flex-direction:column;padding:clamp(24px,4vw,36px)}
+.cp-course.feat{background:var(--card);box-shadow:0 0 0 2px var(--btn) inset;transform:none}
+.cp-course.feat:hover{transform:none}
+.cp-kind{display:inline-block;align-self:flex-start;background:var(--pink);border-radius:999px;padding:2px 14px;font-size:14px;margin-bottom:10px}
+.cp-course h3{font-size:clamp(21px,4vw,25px);margin:4px 0 6px}
+.cp-sub{margin-bottom:12px!important}
+.cp-course p{font-size:15px}
+.cp-list-h{margin-top:16px!important}
+.cp-list{padding-left:1.2em;margin:6px 0 18px;font-size:15px}
+.cp-list li{margin:3px 0}
+.cp-facts{margin:auto 0 0;padding-top:14px;border-top:1px solid var(--grey);display:grid;gap:4px;font-size:15px}
+.cp-facts div{display:flex;gap:12px}
+.cp-facts dt{color:var(--sub);min-width:5em}
+.cp-facts dd{margin:0}
+.cp-small{font-size:14px!important;margin-top:8px;color:var(--sub)}
+.cp-course .btns{margin-top:20px}
+.cp-course .btn{width:100%;text-align:center}
+.cp-found{margin:22px 0}
+.cp-teacher{display:grid;grid-template-columns:.75fr 1.25fr;gap:48px;align-items:center}
+.cp-teacher-ph{aspect-ratio:4/5;border-radius:160px 160px 26px 26px;background:var(--card);max-width:360px;width:100%;margin:0 auto}
+.cp-teacher p+p{margin-top:.8em}
+@media(max-width:820px){.cp-teacher{grid-template-columns:1fr;gap:26px}.cp-teacher-ph{max-width:240px}}
+.cp-faq details p{font-size:15.5px}
+.cp-faq details p+p{margin-top:.6em}
+.cp-cta{background:var(--pink);border-radius:40px 40px 0 0;padding:84px 0 96px}
+.cp-cta p+p{margin-top:.5em}
+.cp-cta .hint em{font-style:normal}
+
+/* ===== 課程報名頁（/course-booking/）===== */
+.cb{padding:48px 0 96px}
+.cb h1{font-size:clamp(28px,6vw,40px);margin:6px 0 8px}
+.cb-steps{list-style:none;padding:0;display:flex;gap:6px;justify-content:center;margin:22px 0 6px;font-size:12.5px;color:var(--sub)}
+.cb-steps li{padding:2px 12px;border-radius:999px;background:rgba(248,244,238,.6)}
+.cb-steps li.on{background:var(--btn);color:var(--card)}
+.cb-block{background:var(--card);border-radius:var(--r);padding:clamp(20px,4vw,32px);margin-top:22px}
+.cb-block h2{font-size:20px;margin-bottom:4px}
+.cb-block .cp-no{margin-bottom:2px}
+.cb-courses{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+@media(max-width:600px){.cb-courses{grid-template-columns:1fr}}
+.cb-opt{position:relative;display:block;cursor:pointer}
+.cb-opt input{position:absolute;opacity:0;pointer-events:none}
+.cb-opt>span{display:block;height:100%;border:1.5px solid var(--grey);border-radius:16px;padding:14px 16px;transition:background .2s,border-color .2s}
+.cb-opt b{display:block;font-size:17px;background:none}
+.cb-opt small{display:block;font-size:13.5px;color:var(--sub);line-height:1.7}
+.cb-opt input:checked+span{border-color:var(--btn);background:var(--pink);box-shadow:inset 0 0 0 1px var(--btn)}
+.cb-opt input:focus-visible+span{outline:2px solid var(--ink);outline-offset:3px}
+.cb-opt input:disabled+span{opacity:.5;cursor:not-allowed}
+.cb-sessions{display:grid;gap:12px;margin-top:14px}
+.cb-session>span{display:grid;grid-template-columns:1fr auto;gap:4px 14px;align-items:start}
+.cb-days{font-size:16px;line-height:1.8}
+.cb-days em{font-style:normal;color:var(--sub);font-size:13px;margin-right:6px}
+.cb-meta{grid-column:1/-1;font-size:13.5px;color:var(--sub);line-height:1.7}
+.cb-badge{font-size:12.5px;border-radius:999px;padding:1px 10px;white-space:nowrap;background:var(--tea)}
+.cb-badge.ok{background:#e4e6d6}
+.cb-badge.low{background:var(--pink)}
+.cb-badge.full{background:#e6e0dc;color:var(--sub)}
+.cb-msg{font-size:15px;color:var(--sub);padding:6px 0}
+.cb-msg .btn{margin-top:12px}
+.cb-field{margin-top:16px}
+.cb-field label{display:block;font-size:15px;margin-bottom:6px}
+.cb-field label i{font-style:normal;font-size:12.5px;color:var(--sub);margin-left:6px}
+.cb-field input,.cb-field textarea{width:100%;font:inherit;color:inherit;background:#fff;border:1.5px solid var(--grey);border-radius:14px;padding:11px 14px;line-height:1.6}
+.cb-field textarea{min-height:112px;resize:vertical}
+.cb-field input:focus-visible,.cb-field textarea:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.cb-field [aria-invalid=true]{border-color:#a2554a;background:#fdf6f4}
+.cb-err{display:block;font-size:13px;line-height:1.5;color:#8f3d33;min-height:1.5em;margin-top:3px}
+.cb-check{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;margin-top:14px;line-height:1.8;cursor:pointer}
+.cb-check input{margin-top:6px;width:18px;height:18px;flex:none;accent-color:var(--btn)}
+.cb-privacy{font-size:13.5px;color:var(--sub);background:rgba(232,207,203,.45);border-radius:14px;padding:12px 16px;margin-top:18px;line-height:1.85}
+.cb-summary{font-size:15px;border:1px dashed var(--grey);border-radius:14px;padding:12px 16px;margin-top:18px;line-height:1.9}
+.cb-summary:empty{display:none}
+.cb-submit{width:100%;margin-top:20px;font-size:16px;padding:14px;cursor:pointer;font-family:inherit}
+.cb-submit:disabled{opacity:.6;cursor:wait;transform:none}
+.cb-alert{margin-top:14px;font-size:14.5px;color:#8f3d33;background:#fbefec;border-radius:12px;padding:10px 14px}
+.cb-alert:empty{display:none}
+.cb-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.cb-done{text-align:center}
+.cb-done h2{font-size:clamp(22px,5vw,28px)}
+.cb-done pre{text-align:left;white-space:pre-wrap;word-break:break-word;background:#fff;border:1.5px solid var(--grey);border-radius:14px;padding:14px 16px;font:15px/1.9 var(--sans);margin:18px 0 0;user-select:all;-webkit-user-select:all}
+.cb-done .btn{width:100%;text-align:center;margin-top:12px;font-family:inherit;cursor:pointer;font-size:16px}
+.cb-spin{display:inline-block;width:16px;height:16px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:cbspin .8s linear infinite;vertical-align:-3px;margin-right:6px}
+@keyframes cbspin{to{transform:rotate(360deg)}}
+fieldset.cb-block{border:0;min-width:0}
+.cb-legend{padding:0;float:left;width:100%}
+.cb-legend+*{clear:both}
+.cb-legend .cp-no{display:block}
+.cb-session>span{display:flex;flex-direction:column;gap:6px}
+.cb-session .cb-badge{order:-1;align-self:flex-start}
+.cb-days div{white-space:nowrap}
+.cp-br{display:none}@media(max-width:600px){.cp-br{display:inline}}
+.cb-rules{margin-top:14px;display:grid;gap:12px}
+.cb-rule{background:rgba(232,207,203,.4);border-radius:14px;padding:14px 16px;font-size:14px;line-height:1.85}
+.cb-rule p+p{margin-top:4px}
+.cb-rule a{color:var(--btn)}
+.cb-rule .cb-check{margin-top:10px;background:#fff;border-radius:10px;padding:8px 12px}
+.cb-inline{margin-top:8px;font-size:14px}
+.cb-field input:disabled{opacity:.5}
+.cb-birth-note{margin:-4px 0 4px;font-size:13.5px}
+/* 課程頁：報名須知 */
+.cp-rules{display:grid;gap:22px;margin-top:30px}
+.cp-rules .card{padding:clamp(22px,4vw,34px)}
+.cp-rules h3{font-size:19px;margin-bottom:12px}
+.cp-rules ol{padding-left:1.4em;font-size:15px}
+.cp-rules li{margin:6px 0}
+.cp-rules .cp-sign{margin-top:14px;font-size:15px}
+.cb-field .cb-check{display:flex;margin-bottom:0}
+.cb-birth-note{margin:2px 0 6px}

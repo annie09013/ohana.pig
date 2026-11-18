@@ -1,0 +1,120 @@
+---
+layout: base
+title: 動物溝通課程報名
+description: 選擇 Ohana 動物溝通課程與開課日期，填寫報名資料後，前往 LINE 與小豬確認名額與付款。
+fixed_book: false
+scripts:
+  - /js/course-booking.js?v=3
+---
+<section class="cb"><div class="wrap narrow">
+ <div class="center">
+  <p class="tag">OHANA ANIMAL COMMUNICATION COURSE</p>
+  <h1>課程報名</h1>
+  <p class="sub">選好課程和日期、留下聯絡資料，<br>接下來小豬會在 LINE 上親自和你確認 ♡</p>
+  <ol class="cb-steps" aria-hidden="true"><li class="on" data-step="1">選擇課程</li><li data-step="2">選擇日期</li><li data-step="3">填寫資料</li><li data-step="4">LINE 確認</li></ol>
+ </div>
+
+ <form id="cbForm" novalidate>
+  <!-- STEP 01 -->
+  <fieldset class="cb-block" id="stepCourse">
+   <legend class="cb-legend"><span class="cp-no">STEP 01</span><h2>選擇課程</h2></legend>
+   <div class="cb-courses" id="courseList">
+    <label class="cb-opt"><input type="radio" name="course" value="ONE_DAY"><span><b data-course-name="ONE_DAY">一日課程｜與自己的毛孩建立連結</b><small data-course-meta="ONE_DAY">課程時間：1 天</small></span></label>
+    <label class="cb-opt"><input type="radio" name="course" value="TWO_DAY"><span><b data-course-name="TWO_DAY">兩日課程｜動物溝通基礎班</b><small data-course-meta="TWO_DAY">課程時間：2 天，每天 10:00–17:00</small></span></label>
+   </div>
+   <p class="hint" style="margin-top:12px">還在考慮哪一堂適合自己？<a href="/course/#journey">看看課程差異</a></p>
+  </fieldset>
+
+  <!-- STEP 02 -->
+  <fieldset class="cb-block" id="stepSession">
+   <legend class="cb-legend"><span class="cp-no">STEP 02</span><h2>選擇開課日期</h2></legend>
+   <div id="sessionList" class="cb-sessions" aria-live="polite"><p class="cb-msg">請先選擇課程。</p></div>
+  </fieldset>
+
+  <!-- STEP 03 -->
+  <fieldset class="cb-block" id="stepInfo">
+   <legend class="cb-legend"><span class="cp-no">STEP 03</span><h2>填寫報名資料</h2></legend>
+   <div class="cb-field">
+    <label for="fName">姓名<i>必填</i></label>
+    <input id="fName" name="name" type="text" maxlength="50" autocomplete="name" required aria-describedby="eName">
+    <span class="cb-err" id="eName"></span>
+   </div>
+   <div class="cb-field">
+    <label for="fPhone">電話<i>必填</i></label>
+    <input id="fPhone" name="phone" type="tel" inputmode="tel" maxlength="20" autocomplete="tel" required aria-describedby="ePhone">
+    <span class="cb-err" id="ePhone"></span>
+   </div>
+   <div class="cb-field">
+    <label for="fLine">LINE ID<i>必填</i></label>
+    <input id="fLine" name="line_id" type="text" maxlength="50" autocomplete="off" autocapitalize="off" required aria-describedby="eLine">
+    <span class="cb-err" id="eLine"></span>
+   </div>
+   <div class="cb-field">
+    <label for="fFb">FB 名稱<i>必填</i></label>
+    <input id="fFb" name="fb_name" type="text" maxlength="50" autocomplete="off" required aria-describedby="eFb">
+    <span class="cb-err" id="eFb"></span>
+   </div>
+   <div id="birthFields" hidden>
+    <div class="cb-field">
+     <label for="fBirthDate">出生日期<i>必填</i></label>
+     <input id="fBirthDate" name="birth_date" type="date" min="1920-01-01" aria-describedby="eBirthDate">
+     <span class="cb-err" id="eBirthDate"></span>
+    </div>
+    <div class="cb-field">
+     <label for="fBirthTime">出生時間<i>必填</i></label>
+     <input id="fBirthTime" name="birth_time" type="time" aria-describedby="eBirthTime">
+     <label class="cb-check cb-inline"><input type="checkbox" id="fBirthUnknown"><span>不清楚出生時間</span></label>
+     <span class="cb-err" id="eBirthTime"></span>
+    </div>
+    <p class="hint cb-birth-note">出生日期與出生時間是用來判定個人特質，僅於課堂上特質解析時使用。</p>
+   </div>
+   <div class="cb-field">
+    <label for="fPets">家中毛孩<i>選填</i></label>
+    <textarea id="fPets" name="pets" maxlength="300" placeholder="例：1貓（18歲女生）2鸚鵡（1歲男生，3個月女生）"></textarea>
+    <p class="hint" style="margin-top:4px">如果目前沒有照顧，也沒有照顧過的毛小孩，也可以報名上課唷！</p>
+   </div>
+   <div class="cb-hp" aria-hidden="true"><label>請勿填寫<input type="text" name="website" id="fWebsite" tabindex="-1" autocomplete="off"></label></div>
+
+   <div class="cb-rules">
+    <div class="cb-rule">
+     <p><b>※報名後記得要在72小時內匯款，並私訊官方LINE（@160ujzhn）確認。</b></p>
+     <p>超過72小時未有後續動作，即會自後台取消報名，不再詢問提醒。</p>
+     <label class="cb-check"><input type="checkbox" id="fPay"><span>好的！</span></label>
+    </div>
+    <div class="cb-rule">
+     <p><b>※填寫並送出此報名表，即為同意本報名表所列之相關退費規定：</b></p>
+     <p>若對相關規定有疑慮，可以直接退出報名。若不清楚，可再閱讀課程介紹中之<a href="/course/#refund" target="_blank" rel="noopener">【退費相關規定提醒事項】</a>部分，報名表送出即視為同意。</p>
+     <label class="cb-check"><input type="checkbox" id="fRefund"><span>我已閱讀、了解並同意遵循本報名表所列之相關退費規定</span></label>
+    </div>
+    <div class="cb-rule">
+     <p><b>※填寫並送出此報名表，即為同意本報名表所列之課程公告提醒事項：</b></p>
+     <p>若對相關規定有疑慮，可以直接退出報名。若不清楚，可再閱讀課程介紹中之<a href="/course/#notice" target="_blank" rel="noopener">【課程公告提醒事項】</a>部分，報名表送出即視為同意</p>
+     <label class="cb-check"><input type="checkbox" id="fNotice"><span>我已閱讀、了解並同意遵循本報名表所列之課程公告提醒事項</span></label>
+    </div>
+    <div class="cb-rule">
+     <p><b>※個人資料蒐集告知</b></p>
+     <p>OHANA.PIG 動物溝通（小豬）蒐集你填寫的資料，僅用於本次課程報名確認、上課通知與相關聯繫；出生日期與時間僅於課堂上特質解析使用。資料不會提供給第三方，也不會用於其他用途。若想查詢、更正或刪除自己的資料，歡迎透過 LINE 告訴小豬。</p>
+     <label class="cb-check"><input type="checkbox" id="fConsent"><span>我已閱讀並同意個人資料蒐集告知</span></label>
+    </div>
+    <span class="cb-err" id="eConsent"></span>
+   </div>
+
+   <div class="cb-summary" id="summary" aria-live="polite"></div>
+   <button class="btn cb-submit" id="submitBtn" type="submit">送出資料，前往 LINE 確認</button>
+   <p class="cb-alert" id="formAlert" role="alert"></p>
+  </fieldset>
+ </form>
+
+ <!-- STEP 05 -->
+ <section class="cb-block cb-done" id="done" hidden tabindex="-1">
+  <h2>資料已成功送出！</h2>
+  <p>謝謝你願意踏出探索的第一步。</p>
+  <p>接下來，請前往 LINE 與小豬確認課程名額及付款方式。</p>
+  <p><b>確認付款完成後，才算正式完成報名。</b></p>
+  <p class="hint">請記得在 72 小時內匯款，並私訊官方LINE（@160ujzhn）確認，超過 72 小時未有後續動作，即會自後台取消報名。</p>
+  <pre id="doneInfo"></pre>
+  <button class="btn ghost" id="copyBtn" type="button">複製報名資訊</button>
+  <a class="btn" id="lineBtn" href="#" target="_blank" rel="noopener">前往 LINE 完成報名確認</a>
+  <p class="hint" id="doneHint"></p>
+ </section>
+</div></section>
