@@ -13,6 +13,14 @@
   const nav = document.getElementById("nav"), btn = document.getElementById("menuBtn");
   btn.addEventListener("click", () => { const o = nav.classList.toggle("open"); btn.setAttribute("aria-expanded", o); });
   nav.addEventListener("click", e => { if (e.target.tagName === "A") { nav.classList.remove("open"); btn.setAttribute("aria-expanded", false); } });
+  // 下拉選單：點箭頭展開／收合
+  document.querySelectorAll(".sub-btn").forEach(b => b.addEventListener("click", e => {
+    e.stopPropagation();
+    const li = b.parentElement, o = !li.classList.contains("open");
+    document.querySelectorAll(".has-sub.open").forEach(x => { x.classList.remove("open"); x.querySelector(".sub-btn").setAttribute("aria-expanded", false); });
+    li.classList.toggle("open", o); b.setAttribute("aria-expanded", o);
+  }));
+  document.addEventListener("click", e => { if (!e.target.closest(".has-sub")) document.querySelectorAll(".has-sub.open").forEach(x => { x.classList.remove("open"); x.querySelector(".sub-btn").setAttribute("aria-expanded", false); }); });
   const all = document.querySelectorAll(".rv");
   const show = () => all.forEach(el => el.classList.add("in"));
   if ("IntersectionObserver" in window) {

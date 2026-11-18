@@ -182,3 +182,33 @@ body{letter-spacing:.04em;line-height:2}
 .prose a{color:var(--btn)}
 .post-end{margin-top:48px;padding-top:28px;border-top:1px solid var(--grey);text-align:center}
 .post-end .btns{justify-content:center}
+
+/* ===== 選單（含下拉選單）===== */
+nav>ul{gap:20px;align-items:center}
+nav>ul>li{display:flex;align-items:center}
+nav .sub{display:none;list-style:none}
+.has-sub{position:relative;display:flex;align-items:center}
+.sub-btn{background:none;border:0;padding:0 0 0 5px;height:28px;cursor:pointer;color:var(--ink)}
+.sub-btn::after{content:"";display:block;width:6px;height:6px;border-right:1.3px solid currentColor;border-bottom:1.3px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .25s}
+.has-sub.open>.sub-btn::after{transform:translateY(2px) rotate(-135deg)}
+@media(min-width:961px){
+ nav .sub{position:absolute;top:100%;left:50%;transform:translateX(-50%);margin-top:8px;min-width:132px;flex-direction:column;gap:0;padding:8px 0;background:var(--card);border-radius:14px;box-shadow:0 8px 24px rgba(81,67,60,.16);white-space:nowrap;z-index:5}
+ nav .sub::before{content:"";position:absolute;left:0;right:0;top:-12px;height:12px}
+ .has-sub:hover>.sub,.has-sub:focus-within>.sub,.has-sub.open>.sub{display:flex}
+ nav .sub a{display:block;padding:8px 22px;border:0}
+ nav .sub a:hover{background:var(--pink)}
+}
+@media(max-width:960px){
+ #menuBtn{display:block}
+ nav{position:absolute;left:0;right:0;top:58px;background:var(--tea);border-bottom:1px solid var(--grey);max-height:0;overflow:hidden;transition:max-height .35s}
+ nav.open{max-height:calc(100vh - 58px);overflow-y:auto}
+ nav>ul{flex-direction:column;gap:0;padding:8px 22px 16px;align-items:stretch}
+ nav>ul>li{display:block}
+ nav>ul>li.has-sub{display:flex}
+ nav a{display:block;padding:11px 0}
+ .has-sub{flex-wrap:wrap}
+ .has-sub>a{flex:1}
+ .sub-btn{width:44px;height:44px;padding:0;display:flex;align-items:center;justify-content:center}
+ .has-sub.open>.sub{display:block;width:100%;padding:0 0 6px 16px;border-left:2px solid var(--pink);margin-bottom:4px}
+ nav .sub a{padding:8px 0;font-size:14px;color:var(--sub)}
+}

@@ -16,16 +16,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Huninn&family=Noto+Sans+TC:wght@400;500&display=swap" rel="stylesheet">
 <script>document.documentElement.classList.add("js")</script>
-<link rel="stylesheet" href="/css/style.css?v=4">
+<link rel="stylesheet" href="/css/style.css?v=5">
 </head>
 <body>
 <header><div class="wrap bar">
  <a class="logo" href="/"><img src="/images/logo.jpg" alt="" width="38" height="38">OHANA.PIG</a>
  <button id="menuBtn" aria-label="開啟選單" aria-expanded="false" aria-controls="nav"><span></span><span></span></button>
  <nav id="nav" aria-label="主要選單"><ul>
-  <li><a href="/#about">認識小豬</a></li><li><a href="/#services">服務介紹</a></li>
-  <li><a href="/#faq">預約須知</a></li><li><a href="/#learn">課程</a></li>
-  <li><a href="/blog/">溝通紀錄分享</a></li><li><a href="/#contact">聯絡</a></li>
+  <li class="has-sub"><a href="/#about">認識小豬</a><button class="sub-btn" aria-label="展開「認識小豬」選單" aria-expanded="false"></button>
+   <ul class="sub"><li><a href="/#about">關於小豬</a></li><li><a href="/#style">溝通風格</a></li></ul></li>
+  <li><a href="/#services">服務介紹</a></li>
+  <li class="has-sub"><a href="/#faq">動物溝通預約</a><button class="sub-btn" aria-label="展開「動物溝通預約」選單" aria-expanded="false"></button>
+   <ul class="sub"><li><a href="/#faq">預約須知</a></li><li><a href="/#flow">預約流程</a></li><li><a data-link="COMMUNICATION_BOOKING_URL" href="/booking/">線上預約</a></li></ul></li>
+  <li><a href="/#learn">動物溝通課程</a></li>
+  <li><a href="/blog/">溝通紀錄分享</a></li>
+  <li><a href="/salt/">淨化祝福鹽</a></li>
+  <li><a href="/#contact">聯繫小豬</a></li>
  </ul></nav>
 </div></header>
 
@@ -39,6 +45,6 @@
 </div></footer>
 <a class="fixed-book" data-link="COMMUNICATION_BOOKING_URL" href="/booking/">預約毛孩溝通 ♡</a>
 <script src="/js/config.js"></script>
-<script src="/js/main.js"></script>
+<script src="/js/main.js?v=2"></script>
 </body>
 </html>
