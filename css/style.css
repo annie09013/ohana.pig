@@ -352,3 +352,37 @@ fieldset.cb-block{border:0;min-width:0}
 .cp-rules .cp-sign{margin-top:14px;font-size:15px}
 .cb-field .cb-check{display:flex;margin-bottom:0}
 .cb-birth-note{margin:2px 0 6px}
+/* ===== 2026-11-19 更新 ===== */
+/* 主標題維持同一排（手機版太窄時，才在逗號後換行） */
+@media(min-width:601px){
+ .cp-one{white-space:nowrap}
+ .cp-one-side{font-size:clamp(20px,2.5vw,28px)}
+ .cp-one-long{font-size:clamp(20px,3.6vw,28px)}
+}
+@media(max-width:600px){.cp-one-side{white-space:nowrap;font-size:clamp(17px,5.4vw,24px)}}
+/* 報名頁：小班教學說明只在逗號處換行 */
+.cb-nb{white-space:nowrap}
+/* 課程頁：小豬插畫（正方形，01 與 05 共用） */
+.cp-mini-ph{aspect-ratio:1/1}
+.cp-teacher-ph{aspect-ratio:1/1}
+/* 課程頁：毛茸茸助教 */
+.cp-ta{padding-bottom:84px}
+.cp-ta-cards{gap:28px;margin-top:38px;align-items:stretch}
+.cp-ta-card{border-radius:var(--r);padding:clamp(22px,3.6vw,32px);box-shadow:0 6px 22px rgba(81,67,60,.06);transition:transform .7s ease,box-shadow .7s ease}
+.cp-ta-card:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(81,67,60,.09)}
+.cp-ta-card.is-tata{background:#F9F3EF}
+.cp-ta-card.is-qiaohu{background:#F4F2EA}
+.cp-ta-ph{aspect-ratio:4/3;border-radius:18px;margin-bottom:20px;background:var(--pink)}
+.cp-ta-card.is-qiaohu .cp-ta-ph{background:#E6E3D6}
+.ph.cp-ta-ph[data-photo=tata] img{object-position:62% 50%}
+.ph.cp-ta-ph[data-photo=qiaohu] img{object-position:50% 24%}
+.cp-ta-no{font-size:12px;letter-spacing:.16em;color:var(--sub);margin-bottom:2px}
+.cp-ta-card h3{font-size:clamp(21px,3.6vw,24px);margin:2px 0 8px}
+.cp-ta-card h3 span{font-size:.72em;letter-spacing:.08em;color:var(--sub);margin-left:4px}
+.cp-ta-tag{display:inline-block;font-size:14px!important;border-radius:999px;padding:2px 14px;margin-bottom:12px!important;background:rgba(232,207,203,.7)}
+.cp-ta-card.is-qiaohu .cp-ta-tag{background:#E4E6D6}
+.cp-ta-card p{font-size:15px}
+.cp-ta-card p+p{margin-top:.7em}
+.cp-ta-end{margin:46px auto 0}
+.cp-ta-end .cp-quote{margin:0 0 .5em!important}
+@media(prefers-reduced-motion:reduce){.cp-ta-card,.cp-ta-card:hover{transition:none;transform:none}}

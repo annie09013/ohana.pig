@@ -14,13 +14,13 @@ const SITE_CONFIG = {
 
   // 照片路徑：放進 images/ 資料夾後，填入檔名即可。留空 "" 會顯示柔和佔位圖
   PHOTOS: {
-    tata: "images/tata.jpg?v=2",
-    qiaohu: "images/qiaohu.jpg?v=2",
-    mimi: "images/mimi.jpg?v=2",
+    tata: "/images/tata.jpg?v=2",
+    qiaohu: "/images/qiaohu.jpg?v=2",
+    mimi: "/images/mimi.jpg?v=2",
     general: "",   // 一般溝通插畫，例："images/general.jpg"（留空＝使用內建線稿）
     memorial: "",  // 離世溝通插畫，例："images/memorial.jpg"
-    teacher: "",   // 【待補】課程頁「嗨，我是小豬」的講師照片，例："/images/teacher.jpg"（請以 / 開頭）
-    story: ""      // 【待補】課程頁小豬故事旁的小照片或插畫，例："/images/course-story.jpg"
+    teacher: "/images/teacher.jpg?v=1",   // 課程頁「嗨，我是小豬」的講師照片（請以 / 開頭）
+    story: "/images/teacher.jpg?v=1"   // 課程頁「01」標題下的小豬插畫（和講師照片同一張）
   },
 
   /* ===== 課程報名設定（報名頁 /course-booking/ 使用）=====
@@ -41,7 +41,8 @@ const SITE_CONFIG = {
         label: "一日課程",
         title: "與自己的毛孩建立連結",
         en: "ONE-DAY CONNECTION COURSE",
-        duration: "1 天"
+        duration: "1 天，10:00–17:00",
+        classNote: "小班教學｜每梯次最多 4 位，滿 2 位即開課"
       },
       TWO_DAY: {
         label: "兩日課程",

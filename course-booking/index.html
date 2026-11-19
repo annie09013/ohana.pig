@@ -4,7 +4,7 @@ title: 動物溝通課程報名
 description: 選擇 Ohana 動物溝通課程與開課日期，填寫報名資料後，前往 LINE 與小豬確認名額與付款。
 fixed_book: false
 scripts:
-  - /js/course-booking.js?v=3
+  - /js/course-booking.js?v=4
 ---
 <section class="cb"><div class="wrap narrow">
  <div class="center">
@@ -19,10 +19,9 @@ scripts:
   <fieldset class="cb-block" id="stepCourse">
    <legend class="cb-legend"><span class="cp-no">STEP 01</span><h2>選擇課程</h2></legend>
    <div class="cb-courses" id="courseList">
-    <label class="cb-opt"><input type="radio" name="course" value="ONE_DAY"><span><b data-course-name="ONE_DAY">一日課程｜與自己的毛孩建立連結</b><small data-course-meta="ONE_DAY">課程時間：1 天</small></span></label>
+    <label class="cb-opt"><input type="radio" name="course" value="ONE_DAY"><span><b data-course-name="ONE_DAY">一日課程｜與自己的毛孩建立連結</b><small data-course-meta="ONE_DAY">課程時間：1 天，10:00–17:00</small></span></label>
     <label class="cb-opt"><input type="radio" name="course" value="TWO_DAY"><span><b data-course-name="TWO_DAY">兩日課程｜動物溝通基礎班</b><small data-course-meta="TWO_DAY">課程時間：2 天，每天 10:00–17:00</small></span></label>
    </div>
-   <p class="hint" style="margin-top:12px">還在考慮哪一堂適合自己？<a href="/course/#journey">看看課程差異</a></p>
   </fieldset>
 
   <!-- STEP 02 -->
@@ -77,7 +76,7 @@ scripts:
 
    <div class="cb-rules">
     <div class="cb-rule">
-     <p><b>※報名後記得要在72小時內匯款，並私訊官方LINE（@160ujzhn）確認。</b></p>
+     <p><b>※報名後記得要在72小時內付款，並於官方LINE（@160ujzhn）的訊息中確認相關付款訊息。</b></p>
      <p>超過72小時未有後續動作，即會自後台取消報名，不再詢問提醒。</p>
      <label class="cb-check"><input type="checkbox" id="fPay"><span>好的！</span></label>
     </div>
@@ -111,10 +110,10 @@ scripts:
   <p>謝謝你願意踏出探索的第一步。</p>
   <p>接下來，請前往 LINE 與小豬確認課程名額及付款方式。</p>
   <p><b>確認付款完成後，才算正式完成報名。</b></p>
-  <p class="hint">請記得在 72 小時內匯款，並私訊官方LINE（@160ujzhn）確認，超過 72 小時未有後續動作，即會自後台取消報名。</p>
+  <p class="hint">請記得在 72 小時內付款，並於官方LINE（@160ujzhn）的訊息中確認相關付款訊息，超過 72 小時未有後續動作，即會自後台取消報名。</p>
   <pre id="doneInfo"></pre>
-  <button class="btn ghost" id="copyBtn" type="button">複製報名資訊</button>
-  <a class="btn" id="lineBtn" href="#" target="_blank" rel="noopener">前往 LINE 完成報名確認</a>
   <p class="hint" id="doneHint"></p>
+  <a class="btn" id="lineBtn" href="#" target="_blank" rel="noopener">前往 LINE 完成報名確認</a>
+  <button class="btn ghost" id="copyBtn" type="button">複製報名資訊</button>
  </section>
 </div></section>

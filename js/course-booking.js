@@ -27,6 +27,10 @@
   function lineBtnHTML(text) {
     return '<a class="btn" href="' + esc(CFG.LINE_URL) + '" target="_blank" rel="noopener">' + esc(text || "LINE 詢問小豬") + "</a>";
   }
+  // 只在「，」的地方換行，避免最後一個字單獨掉到下一行
+  function noBreak(text) {
+    return String(text).split("，").map(t => '<span class="cb-nb">' + esc(t) + "</span>").join("，");
+  }
   function newId() {
     if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
     return Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
@@ -45,7 +49,7 @@
       const nameEl = document.querySelector('[data-course-name="' + id + '"]');
       const metaEl = document.querySelector('[data-course-meta="' + id + '"]');
       if (nameEl) nameEl.textContent = courseName(id);
-      if (metaEl) metaEl.innerHTML = "課程時間：" + esc((fromSheet && fromSheet.duration) || c.duration) + "<br>課程費用：" + esc(priceText) + (c.classNote ? "<br>" + esc(c.classNote) : "");
+      if (metaEl) metaEl.innerHTML = "課程時間：" + esc((fromSheet && fromSheet.duration) || c.duration) + "<br>課程費用：" + esc(priceText) + (c.classNote ? "<br>" + noBreak(c.classNote) : "");
     });
   }
 
@@ -220,20 +224,28 @@
     $("#doneInfo").textContent = info;
 
     // 只把報名編號、課程、日期帶進 LINE；電話與信箱不會放進網址
-    const mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    // 手機：用 LINE 官方帳號的「預填訊息」連結（@ 要編碼成 %40），在同一個分頁開啟，LINE App 才接得到
+    const mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 1 && /Macintosh/.test(navigator.userAgent));
     const canPrefill = mobile && CFG.LINE_ID;
-    const link = canPrefill
-      ? "https://line.me/R/oaMessage/" + encodeURIComponent(CFG.LINE_ID).replace("%40", "@") + "/?" + encodeURIComponent(info)
+    const btn = $("#lineBtn");
+    btn.href = canPrefill
+      ? "https://line.me/R/oaMessage/" + encodeURIComponent(CFG.LINE_ID) + "/?" + encodeURIComponent(info)
       : CFG.LINE_URL;
-    $("#lineBtn").href = link;
+    if (canPrefill) btn.removeAttribute("target"); else btn.setAttribute("target", "_blank");
     $("#doneHint").textContent = canPrefill
-      ? "按下按鈕會開啟 LINE 並帶入報名資訊，只要按「傳送」就可以囉！如果沒有帶入，請先複製報名資訊再貼上。"
+      ? "按下按鈕會開啟 LINE 並帶入報名資訊，按「傳送」就完成囉！我們也會同時幫你複製報名資訊，如果 LINE 裡沒有出現文字（例如還沒加好友），加入好友後直接長按「貼上」傳送就可以 ♡"
       : "請先按「複製報名資訊」，開啟 LINE 官方帳號後貼上傳送給小豬 ♡";
 
     $("#cbForm").hidden = true;
     const done = $("#done"); done.hidden = false;
     done.scrollIntoView({ behavior: "smooth", block: "start" }); done.focus({ preventScroll: true });
   }
+
+  // 按「前往 LINE」時先自動複製報名資訊，萬一 LINE 沒帶入文字，也能直接貼上
+  $("#lineBtn").addEventListener("click", () => {
+    const text = $("#doneInfo").textContent;
+    try { if (navigator.clipboard) navigator.clipboard.writeText(text).catch(() => {}); } catch (e) {}
+  });
 
   $("#copyBtn").addEventListener("click", async () => {
     const text = $("#doneInfo").textContent, b = $("#copyBtn");
