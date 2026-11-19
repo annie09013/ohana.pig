@@ -4,7 +4,7 @@ title: 動物溝通課程報名
 description: 選擇 Ohana 動物溝通課程與開課日期，填寫報名資料後，前往 LINE 與小豬確認名額與付款。
 fixed_book: false
 scripts:
-  - /js/course-booking.js?v=4
+  - /js/course-booking.js?v=7
 ---
 <section class="cb"><div class="wrap narrow">
  <div class="center">
@@ -18,16 +18,35 @@ scripts:
   <!-- STEP 01 -->
   <fieldset class="cb-block" id="stepCourse">
    <legend class="cb-legend"><span class="cp-no">STEP 01</span><h2>選擇課程</h2></legend>
+   <div class="cb-mode" role="radiogroup" aria-label="上課方式">
+    <label class="cb-pill"><input type="radio" name="mode" value="physical" checked><span>實體小班</span></label>
+    <label class="cb-pill"><input type="radio" name="mode" value="online"><span>線上一對一</span></label>
+   </div>
+   <p class="cb-mode-note" id="modeNote">小班教學，假日開課，每梯次最多 4 位，滿 2 位即開課。</p>
    <div class="cb-courses" id="courseList">
-    <label class="cb-opt"><input type="radio" name="course" value="ONE_DAY"><span><b data-course-name="ONE_DAY">一日課程｜與自己的毛孩建立連結</b><small data-course-meta="ONE_DAY">課程時間：1 天，10:00–17:00</small></span></label>
-    <label class="cb-opt"><input type="radio" name="course" value="TWO_DAY"><span><b data-course-name="TWO_DAY">兩日課程｜動物溝通基礎班</b><small data-course-meta="TWO_DAY">課程時間：2 天，每天 10:00–17:00</small></span></label>
+    <label class="cb-opt"><input type="radio" name="course" value="ONE_DAY"><span><b data-course-name="ONE_DAY">一日課程｜與自己的毛孩建立連結</b><small data-course-meta="ONE_DAY">課程時間：1 天，假日 10:00–17:00</small></span></label>
+    <label class="cb-opt"><input type="radio" name="course" value="TWO_DAY"><span><b data-course-name="TWO_DAY">兩日課程｜動物溝通基礎班</b><small data-course-meta="TWO_DAY">課程時間：2 天，假日 10:00–17:00</small></span></label>
    </div>
   </fieldset>
 
   <!-- STEP 02 -->
   <fieldset class="cb-block" id="stepSession">
-   <legend class="cb-legend"><span class="cp-no">STEP 02</span><h2>選擇開課日期</h2></legend>
+   <legend class="cb-legend"><span class="cp-no">STEP 02</span><h2 id="step2Title">選擇開課日期</h2></legend>
    <div id="sessionList" class="cb-sessions" aria-live="polite"><p class="cb-msg">請先選擇課程。</p></div>
+   <div id="onlineBox" class="cb-online" hidden>
+    <p>線上課程是<b>一對一</b>上課，內容和費用都和實體課程相同，一個人就開課。<br>上課時間可以彈性安排：<b>平日晚上 19:30 以後</b>，或<b>週六、週日</b>。<br>上課時數：<b>一日課程 6 小時、兩日課程 12 小時</b>。</p>
+    <div class="cb-field">
+     <span class="cb-label" id="slotLabel">方便上課的時段<i>必填，可複選</i></span>
+     <div class="cb-slots" id="slotList" role="group" aria-labelledby="slotLabel"></div>
+     <span class="cb-err" id="eSlots"></span>
+    </div>
+    <div class="cb-field">
+     <label for="fPrefer">希望的日期<i>必填</i></label>
+     <textarea id="fPrefer" maxlength="300" aria-describedby="ePrefer" placeholder="例：12 月的週六都可以；平日晚上週二、週四比較方便"></textarea>
+     <span class="cb-err" id="ePrefer"></span>
+    </div>
+    <p class="hint" style="margin-top:4px">送出後，小豬會在 LINE 和你確認實際上課的日期與時間。</p>
+   </div>
   </fieldset>
 
   <!-- STEP 03 -->

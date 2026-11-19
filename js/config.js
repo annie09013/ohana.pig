@@ -11,6 +11,8 @@ const SITE_CONFIG = {
   COURSE_BOOKING_URL: "/course-booking/",
   ONE_DAY_COURSE_URL: "/course-booking/?course=ONE_DAY",
   TWO_DAY_COURSE_URL: "/course-booking/?course=TWO_DAY",
+  ONE_DAY_ONLINE_URL: "/course-booking/?course=ONE_DAY_ONLINE",
+  TWO_DAY_ONLINE_URL: "/course-booking/?course=TWO_DAY_ONLINE",
 
   // 照片路徑：放進 images/ 資料夾後，填入檔名即可。留空 "" 會顯示柔和佔位圖
   PHOTOS: {
@@ -33,7 +35,7 @@ const SITE_CONFIG = {
     // 送出後要前往的 LINE 官方帳號（預設沿用上面的 LINE 設定）
     LINE_URL: "https://line.me/R/ti/p/%40160ujzhn",
     LINE_ID: "@160ujzhn",   // 有填 Basic ID，手機上就能自動帶入報名資訊
-    // 試算表的 price 欄位空白時，顯示這段文字
+    // 價格：試算表 Courses 的 price 有填就用試算表；沒填就用下面各課程的 price；都沒有才顯示這段文字
     PRICE_FALLBACK: "依當期開課資訊公告",
     // 課程基本資訊（試算表 Courses 若有填 course_name / price，會以試算表為主）
     COURSES: {
@@ -41,16 +43,39 @@ const SITE_CONFIG = {
         label: "一日課程",
         title: "與自己的毛孩建立連結",
         en: "ONE-DAY CONNECTION COURSE",
-        duration: "1 天，10:00–17:00",
+        duration: "1 天，假日 10:00–17:00",
+        price: 5000,
         classNote: "小班教學｜每梯次最多 4 位，滿 2 位即開課"
       },
       TWO_DAY: {
         label: "兩日課程",
         title: "動物溝通基礎班",
         en: "TWO-DAY ANIMAL COMMUNICATION TRAINING",
-        duration: "2 天，每天 10:00–17:00",
+        duration: "2 天，假日 10:00–17:00",
+        price: 8000,
         classNote: "小班教學｜每梯次最多 4 位，滿 2 位即開課"
+      },
+      // 線上一對一：課程內容和實體課相同，一人即開課，時間和小豬另外約
+      ONE_DAY_ONLINE: {
+        label: "一日課程（線上）",
+        title: "與自己的毛孩建立連結",
+        base: "ONE_DAY",
+        online: true,
+        price: 5000,
+        duration: "上課時數 6 小時，時間與小豬約",
+        classNote: "線上一對一｜一人即開課"
+      },
+      TWO_DAY_ONLINE: {
+        label: "兩日課程（線上）",
+        title: "動物溝通基礎班",
+        base: "TWO_DAY",
+        online: true,
+        price: 8000,
+        duration: "上課時數 12 小時，時間與小豬約",
+        classNote: "線上一對一｜一人即開課"
       }
-    }
+    },
+    // 線上課程可以約的時段（報名表的勾選項目）
+    ONLINE_SLOTS: ["平日晚上（19:30 以後）", "週六", "週日"]
   }
 };

@@ -9,7 +9,8 @@
 
   let data = null;          // 後端回傳的 { courses, sessions }
   let course = null;        // 目前選的 course_id
-  let session = null;       // 目前選的場次物件
+  let session = null;       // 目前選的場次物件（線上課程沒有場次）
+  let mode = "physical";    // 上課方式：physical 實體小班／online 線上一對一
   let requestId = null;     // 防重複送出：同一次報名重試時沿用同一個 ID
   let sending = false;
 
@@ -35,42 +36,86 @@
     if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
     return Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
   }
+  const isOnline = id => !!(COURSES[id] && COURSES[id].online);
+  const baseOf = id => (COURSES[id] && COURSES[id].base) || id;
+  const idFor = (base, m) => m === "online" ? base + "_ONLINE" : base;
+  function onlineOpen(id) {      // 試算表 Courses 把線上課程設成「關閉」時，就不開放選擇
+    return !data || !data.courses || data.courses.some(c => c.course_id === id);
+  }
   function setStep(n) {
     document.querySelectorAll(".cb-steps li").forEach(li => li.classList.toggle("on", Number(li.dataset.step) <= n));
   }
 
   /* ---------- STEP 01：課程 ---------- */
   function paintCourses() {
-    Object.keys(COURSES).forEach(id => {
+    ["ONE_DAY", "TWO_DAY"].forEach(base => {
+      const id = idFor(base, mode);
       const fromSheet = data && data.courses && data.courses.find(c => c.course_id === id);
       const c = COURSES[id];
-      const price = fromSheet && fromSheet.price !== "" && fromSheet.price != null ? fromSheet.price : CFG.PRICE_FALLBACK;
+      const price = fromSheet && fromSheet.price !== "" && fromSheet.price != null ? fromSheet.price : (c.price != null ? c.price : CFG.PRICE_FALLBACK);
       const priceText = /^\d+$/.test(String(price)) ? "NT$ " + Number(price).toLocaleString("zh-TW") : price;
-      const nameEl = document.querySelector('[data-course-name="' + id + '"]');
-      const metaEl = document.querySelector('[data-course-meta="' + id + '"]');
-      if (nameEl) nameEl.textContent = courseName(id);
-      if (metaEl) metaEl.innerHTML = "課程時間：" + esc((fromSheet && fromSheet.duration) || c.duration) + "<br>課程費用：" + esc(priceText) + (c.classNote ? "<br>" + noBreak(c.classNote) : "");
+      const nameEl = document.querySelector('[data-course-name="' + base + '"]');
+      const metaEl = document.querySelector('[data-course-meta="' + base + '"]');
+      if (nameEl) nameEl.innerHTML = courseName(id).split("｜").map(t => '<span class="cb-nb">' + esc(t) + "</span>").join("｜");
+      // 課程時間以網站設定為主（試算表 duration 只在網站沒寫時才用）
+      if (metaEl) metaEl.innerHTML = "課程時間：" + noBreak(c.duration || (fromSheet && fromSheet.duration) || "") + "<br>課程費用：" + esc(priceText) + (c.classNote ? "<br>" + noBreak(c.classNote) : "");
     });
+    const onlineAvail = onlineOpen("ONE_DAY_ONLINE") || onlineOpen("TWO_DAY_ONLINE");
+    const onlineInput = document.querySelector('input[name=mode][value=online]');
+    onlineInput.disabled = !onlineAvail;
+    onlineInput.closest(".cb-pill").title = onlineAvail ? "" : "線上課程目前暫停預約";
+    if (mode === "online") {
+      ["ONE_DAY", "TWO_DAY"].forEach(base => {
+        const inp = document.querySelector('input[name=course][value="' + base + '"]');
+        inp.disabled = !onlineOpen(idFor(base, "online"));
+      });
+    } else document.querySelectorAll("input[name=course]").forEach(i => { i.disabled = false; });
+    $("#modeNote").textContent = mode === "online"
+      ? "一對一上課，課程內容與費用和實體課相同，一個人就開課。時間可以彈性安排（平日晚上 19:30 以後或假日），上課時數：一日課程 6 小時、兩日課程 12 小時。"
+      : "小班教學，假日開課，每梯次最多 4 位，滿 2 位即開課。";
+  }
+
+  function setMode(m, fromUser) {
+    mode = m === "online" ? "online" : "physical";
+    const r = document.querySelector('input[name=mode][value="' + mode + '"]');
+    if (r) r.checked = true;
+    paintCourses();
+    if (course) pickCourse(idFor(baseOf(course), mode), fromUser);
+    else renderStep2();
   }
 
   function pickCourse(id, fromUser) {
     if (!COURSES[id]) return;
+    const m = isOnline(id) ? "online" : "physical";
+    if (m !== mode) { mode = m; const r = document.querySelector('input[name=mode][value="' + m + '"]'); if (r) r.checked = true; paintCourses(); }
     course = id;
-    const input = document.querySelector('input[name=course][value="' + id + '"]');
+    const input = document.querySelector('input[name=course][value="' + baseOf(id) + '"]');
     if (input) input.checked = true;
     session = null;
-    $("#birthFields").hidden = id !== "TWO_DAY";
-    renderSessions();
+    $("#birthFields").hidden = baseOf(id) !== "TWO_DAY";
+    renderStep2();
     setStep(2);
     updateSummary();
     if (fromUser) { const u = new URL(location.href); u.searchParams.set("course", id); history.replaceState(null, "", u); }
   }
 
-  /* ---------- STEP 02：場次 ---------- */
+  /* ---------- STEP 02：場次（實體）／希望時段（線上）---------- */
+  function renderStep2() {
+    const online = course ? isOnline(course) : mode === "online";
+    $("#step2Title").textContent = online ? "希望上課的時段" : "選擇開課日期";
+    $("#onlineBox").hidden = !(online && course);
+    $("#sessionList").hidden = online && !!course;
+    if (online && course) { setStep(slotsPicked().length ? 3 : 2); return; }
+    renderSessions();
+  }
+  function slotsPicked() {
+    return Array.from(document.querySelectorAll("#slotList input:checked")).map(i => i.value);
+  }
   function renderSessions() {
     const box = $("#sessionList");
     if (!course) { box.innerHTML = '<p class="cb-msg">請先選擇課程。</p>'; return; }
     if (!data) { box.innerHTML = '<p class="cb-msg"><span class="cb-spin" aria-hidden="true"></span>正在讀取開課日期…</p>'; return; }
+    if (isOnline(course)) return;
     const list = data.sessions.filter(s => s.course_id === course);
     if (!list.length) {
       box.innerHTML = '<div class="cb-msg"><p>' + NO_SESSION_TEXT + "</p>" + lineBtnHTML("LINE 詢問下一次開課") + "</div>";
@@ -100,7 +145,7 @@
     if (!CFG.API_URL) {
       console.warn("[課程報名] 尚未設定 SITE_CONFIG.COURSE_BOOKING.API_URL");
       data = { courses: [], sessions: [] };
-      paintCourses(); renderSessions(); return;
+      paintCourses(); renderStep2(); return;
     }
     try {
       const r = await fetch(CFG.API_URL + "?action=sessions&t=" + Date.now(), { cache: "no-store" });
@@ -111,7 +156,9 @@
         const still = data.sessions.find(s => s.session_id === session.session_id && s.state === "open" && s.remaining > 0);
         session = still || null;
       }
-      paintCourses(); renderSessions(); updateSummary();
+      paintCourses();
+      if (course && isOnline(course) && !onlineOpen(course)) { course = null; document.querySelectorAll("input[name=course]").forEach(i => { i.checked = false; }); }
+      renderStep2(); updateSummary();
     } catch (e) {
       data = null;
       $("#sessionList").innerHTML = '<div class="cb-msg"><p>開課日期讀取失敗，請確認網路後再試一次。</p><button type="button" class="btn ghost" id="retryLoad">重新讀取</button> ' + lineBtnHTML("或 LINE 詢問小豬") + "</div>";
@@ -128,7 +175,17 @@
     birth_date: { el: "#fBirthDate", err: "#eBirthDate", only: "TWO_DAY", check: v => !v ? "請填寫出生日期" : (!/^\d{4}-\d{2}-\d{2}$/.test(v) || v > todayISO() || v < "1920-01-01") ? "出生日期好像不太對，請再確認一下" : "" },
     birth_time: { el: "#fBirthTime", err: "#eBirthTime", only: "TWO_DAY", check: v => ($("#fBirthUnknown").checked || v) ? "" : "請填寫出生時間，或勾選「不清楚出生時間」" }
   };
-  const activeFields = () => Object.keys(fields).filter(k => !fields[k].only || fields[k].only === course);
+  fields.prefer = { el: "#fPrefer", err: "#ePrefer", online: true, check: v => !v ? "請寫下希望的日期，方便小豬幫你安排" : "" };
+  const activeFields = () => Object.keys(fields).filter(k =>
+    (!fields[k].only || fields[k].only === baseOf(course)) && (!fields[k].online || isOnline(course)));
+  function checkSlots() {
+    const ok = slotsPicked().length > 0;
+    $("#eSlots").textContent = ok ? "" : "請至少勾選一個方便的時段";
+    return ok;
+  }
+  function preferText() {
+    return slotsPicked().join("、") + "｜" + $("#fPrefer").value.trim();
+  }
   function todayISO() { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); }
   const CHECKS = ["#fPay", "#fRefund", "#fNotice", "#fConsent"];
   $("#fBirthUnknown").addEventListener("change", () => {
@@ -150,6 +207,11 @@
 
   function updateSummary() {
     const box = $("#summary");
+    if (course && isOnline(course)) {
+      const sl = slotsPicked();
+      box.innerHTML = "你選擇的是：<br><b>" + esc(courseName(course)) + "</b><br>線上一對一" + (sl.length ? "｜方便時段：" + esc(sl.join("、")) : "");
+      return;
+    }
     if (!course || !session) { box.textContent = ""; return; }
     box.innerHTML = "你選擇的是：<br><b>" + esc(courseName(course)) + "</b><br>" +
       session.dates.map(dayText).join("、") + "　" + esc(session.start_time) + "–" + esc(session.end_time);
@@ -168,24 +230,27 @@
     if (sending) return;                      // 防止連點
     const alert = $("#formAlert"); alert.textContent = "";
     if (!course) { alert.textContent = "請先選擇課程（STEP 01）。"; $("#stepCourse").scrollIntoView({ behavior: "smooth" }); return; }
-    if (!session) { alert.textContent = "請選擇開課日期（STEP 02）。"; $("#stepSession").scrollIntoView({ behavior: "smooth" }); return; }
-    const ok = activeFields().map(validateField).every(Boolean);
+    const online = isOnline(course);
+    if (!online && !session) { alert.textContent = "請選擇開課日期（STEP 02）。"; $("#stepSession").scrollIntoView({ behavior: "smooth" }); return; }
+    const slotsOk = online ? checkSlots() : true;
+    const ok = activeFields().map(validateField).every(Boolean) && slotsOk;
     const allChecked = CHECKS.every(c => $(c).checked);
     $("#eConsent").textContent = allChecked ? "" : "請勾選上面每一個確認項目";
     if (!ok || !allChecked) {
       alert.textContent = "還有欄位需要確認，請看一下標示的地方。";
-      const bad = document.querySelector('#cbForm [aria-invalid="true"]') || $(CHECKS.find(c => !$(c).checked));
+      const bad = (!slotsOk && $("#slotList input")) || document.querySelector('#cbForm [aria-invalid="true"]') || $(CHECKS.find(c => !$(c).checked));
       bad.focus(); return;
     }
     if (!CFG.API_URL) { alert.textContent = "報名系統尚未開放，請先透過 LINE 詢問小豬。"; return; }
 
     requestId = requestId || newId();
     const payload = {
-      action: "book", request_id: requestId, course_id: course, session_id: session.session_id,
+      action: "book", request_id: requestId, course_id: course, session_id: online ? "ONLINE" : session.session_id,
+      preferred_time: online ? preferText() : "",
       name: $("#fName").value.trim(), phone: $("#fPhone").value.trim(),
       line_id: $("#fLine").value.trim(), fb_name: $("#fFb").value.trim(),
-      birth_date: course === "TWO_DAY" ? $("#fBirthDate").value : "",
-      birth_time: course === "TWO_DAY" ? ($("#fBirthUnknown").checked ? "不清楚" : $("#fBirthTime").value) : "",
+      birth_date: baseOf(course) === "TWO_DAY" ? $("#fBirthDate").value : "",
+      birth_time: baseOf(course) === "TWO_DAY" ? ($("#fBirthUnknown").checked ? "不清楚" : $("#fBirthTime").value) : "",
       pets: $("#fPets").value.trim(),
       pay_ack: $("#fPay").checked, refund_ack: $("#fRefund").checked, notice_ack: $("#fNotice").checked, consent: $("#fConsent").checked,
       website: $("#fWebsite").value
@@ -214,13 +279,19 @@
   /* ---------- STEP 05：成功 → LINE ---------- */
   function showDone(j) {
     setStep(4);
-    const dates = (j.dates || session.dates).map(dayText).join("、");
-    const info =
-      "【Ohana 課程報名確認】\n" +
+    const cid = j.course_id || course;
+    let info = "【Ohana 課程報名確認】\n" +
       "報名編號：" + j.booking_id + "\n" +
-      "課程名稱：" + courseName(j.course_id || course) + "\n" +
-      "開課日期：" + dates + "\n" +
-      "上課時間：" + (j.start_time || session.start_time) + "–" + (j.end_time || session.end_time);
+      "課程名稱：" + courseName(cid) + "\n";
+    if (isOnline(cid)) {
+      info += "上課方式：線上一對一\n" +
+        "方便時段：" + slotsPicked().join("、") + "\n" +
+        "希望日期：" + $("#fPrefer").value.trim();
+    } else {
+      const dates = ((j.dates && j.dates.length) ? j.dates : session.dates).map(dayText).join("、");
+      info += "開課日期：" + dates + "\n" +
+        "上課時間：" + (j.start_time || session.start_time) + "–" + (j.end_time || session.end_time);
+    }
     $("#doneInfo").textContent = info;
 
     // 只把報名編號、課程、日期帶進 LINE；電話與信箱不會放進網址
@@ -259,10 +330,18 @@
   });
 
   /* ---------- 啟動 ---------- */
-  document.querySelectorAll("input[name=course]").forEach(i => i.addEventListener("change", () => pickCourse(i.value, true)));
+  document.querySelectorAll("input[name=course]").forEach(i => i.addEventListener("change", () => pickCourse(idFor(i.value, mode), true)));
+  document.querySelectorAll("input[name=mode]").forEach(i => i.addEventListener("change", () => setMode(i.value, true)));
+  (CFG.ONLINE_SLOTS || []).forEach(t => {
+    const l = document.createElement("label");
+    l.className = "cb-check cb-slot";
+    l.innerHTML = '<input type="checkbox" value="' + esc(t) + '"><span>' + esc(t) + "</span>";
+    l.querySelector("input").addEventListener("change", () => { if ($("#eSlots").textContent) checkSlots(); setStep(slotsPicked().length ? 3 : 2); updateSummary(); });
+    $("#slotList").appendChild(l);
+  });
   $("#fBirthDate").max = todayISO();
   paintCourses();
-  const q = (new URLSearchParams(location.search).get("course") || "").toUpperCase().replace("-", "_");
+  const q = (new URLSearchParams(location.search).get("course") || "").toUpperCase().replace(/-/g, "_");
   if (COURSES[q]) pickCourse(q, false);
   loadSessions();
 })();
