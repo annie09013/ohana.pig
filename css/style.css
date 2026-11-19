@@ -411,3 +411,7 @@ fieldset.cb-block{border:0;min-width:0}
 .cp-online a{color:var(--btn);font-size:14.5px;display:inline-block;margin-top:4px}
 .cb [hidden]{display:none!important}
 .cb-online,.cb-sessions{clear:both}
+/* 首頁：服務卡片的「我要預約」按鈕對齊在卡片底部 */
+.card.svc{display:flex;flex-direction:column}
+.svc .btns{margin-top:auto;padding-top:22px}
+.svc .btn{width:100%;text-align:center}

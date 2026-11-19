@@ -222,6 +222,12 @@ $('#again').onclick = () => {
 };
 
 load();
+// 從首頁「我要預約」進來時，自動選好溝通類型（?type=general 或 ?type=memorial）
+(function () {
+  const t = { general: "一般溝通", memorial: "離世溝通" }[new URLSearchParams(location.search).get("type")];
+  const r = t && document.querySelector('input[name=type][value="' + t + '"]');
+  if (r) { r.checked = true; r.dispatchEvent(new Event("change", { bubbles: true })); }
+})();
 </script>
 </body>
 </html>
