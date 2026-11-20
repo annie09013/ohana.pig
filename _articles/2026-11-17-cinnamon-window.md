@@ -1,12 +1,11 @@
 ---
 title: 我只有我餒｜開窗去吹風的肉桂
-date: 2026-11-17
-description: 一隻年輕的大橘貓，盯著電梯的光、專挑最臭的鞋子聞，還自己撥開窗戶「出去吹了一下風」。
+date: 2024-01-02
 cover: /images/articles/cinnamon-window.jpg
+description: 一隻年輕的大橘貓，盯著電梯的光、專挑最臭的鞋子聞，還自己撥開窗戶「出去吹了一下風」。
 slug: cinnamon-window
 published: true
 ---
-
 溝通開始前，肉桂爸爸先傳來一張照片：「肉桂的正面照，哈！」
 
 照片裡是一隻年輕的大橘貓，毛蓬蓬的，眼神淡定，一臉「拍完了沒」。我回：「有夠帥。」
