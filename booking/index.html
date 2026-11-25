@@ -17,7 +17,11 @@ b,h1,h2{font-weight:400}
 h1,h2{font-family:"Huninn","Noto Sans TC",sans-serif;line-height:1.3;margin:0 0 8px}
 h1{font-size:30px}
 h2{font-size:24px}
-.lead{color:var(--muted);margin:0 0 28px}
+.lead{color:var(--muted);margin:0 0 20px}
+.steps{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;margin:0 0 28px}
+.steps p{margin:0 0 6px}
+.steps ol{margin:0;padding-left:1.4em;color:var(--muted);font-size:15px}
+.steps li{margin-bottom:2px}
 fieldset{border:0;padding:0;margin:0 0 28px;min-width:0}
 legend{font-weight:400;margin-bottom:10px;padding:0}
 .dates{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
@@ -31,17 +35,22 @@ legend{font-weight:400;margin-bottom:10px;padding:0}
 .tile:disabled em{color:var(--muted)}
 .opt{display:block;position:relative;margin-bottom:10px}
 .opt input{position:absolute;opacity:0}
-.opt>span{display:flex;justify-content:space-between;gap:12px;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;cursor:pointer}
+.opt>span{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;cursor:pointer}
 .opt i{font-style:normal;color:var(--muted)}
+.opt small{display:block;font-size:13px;line-height:1.5;color:var(--muted)}
 .opt input:checked+span{border-color:var(--accent);background:var(--soft);box-shadow:inset 0 0 0 1px var(--accent)}
 input[type=text]{width:100%;font:inherit;color:inherit;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px}
 .hint{font-size:14px;color:var(--muted);margin:6px 0 0}
+.rules{font-size:14px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px;margin:0 0 20px}
+.rules p{margin:0 0 6px;color:var(--ink);font-size:15px}
+.rules ul{margin:0;padding-left:1.2em}
+.rules li{margin-bottom:4px}
 .go{display:block;width:100%;text-align:center;text-decoration:none;font:400 17px/1.4 inherit;font-family:inherit;color:var(--card);background:var(--accent);border:0;border-radius:14px;padding:14px;cursor:pointer;margin-top:12px}
 .go.alt{background:var(--ink)}
 .go:disabled{opacity:.6;cursor:wait}
 .opt input:focus-visible+span,.tile:focus-visible,.go:focus-visible,input[type=text]:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
 #err{color:#8f3d33;font-weight:500;margin:0 0 12px;min-height:1.7em}
-.note{font-size:14px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px;margin-top:8px}
+.note{font-size:14px;color:var(--muted);text-align:center;margin-top:12px}
 #doneText{white-space:pre-line}
 .go.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
 #qrWrap{margin:16px 0}
@@ -53,7 +62,17 @@ pre{white-space:pre-wrap;word-break:break-all;user-select:all;-webkit-user-selec
 <body>
 <main>
   <h1>Ohana 動物溝通</h1>
-  <p class="lead">嗨～歡迎來找小豬搭起溝通橋樑，跟你的孩子聊聊天 🐷🤍<br>選好喜歡的日期與溝通方案，送出預約後，小豬就會先幫你保留時間囉！<br>期待和你們見面 ♡</p>
+  <p class="lead">嗨～歡迎來到小豬的預約頁 🐷🤍<br>想知道孩子心裡在想什麼、有什麼感受嗎？讓小豬陪你們好好說說話。</p>
+
+  <div class="steps">
+    <p>🐾 預約流程</p>
+    <ol>
+      <li>選擇日期、方案和溝通類型，送出預約</li>
+      <li>小豬會在 LINE 跟你確認時段，並傳付款連結</li>
+      <li>付款完成，時段就保留給你</li>
+      <li>小豬會傳「溝通前準備」給你，照著做就好，不用擔心不知道要問什麼</li>
+    </ol>
+  </div>
 
   <form id="f" novalidate>
     <fieldset>
@@ -63,8 +82,8 @@ pre{white-space:pre-wrap;word-break:break-all;user-select:all;-webkit-user-selec
 
     <fieldset>
       <legend>方案</legend>
-      <label class="opt"><input type="radio" name="plan" value="30"><span><b>30 分鐘</b><i>$1000</i></span></label>
-      <label class="opt"><input type="radio" name="plan" value="60"><span><b>60 分鐘</b><i>$1800</i></span></label>
+      <label class="opt"><input type="radio" name="plan" value="30"><span><b>30 分鐘<small>大約可以問 4–6 題，最多兩位毛孩</small></b><i>$1000</i></span></label>
+      <label class="opt"><input type="radio" name="plan" value="60"><span><b>60 分鐘<small>大約可以問 8–12 題</small></b><i>$1800</i></span></label>
     </fieldset>
 
     <fieldset>
@@ -79,9 +98,22 @@ pre{white-space:pre-wrap;word-break:break-all;user-select:all;-webkit-user-selec
       <p class="hint">請填寫與 LINE 顯示相同的名稱，方便小豬確認你的預約資料唷 ♡</p>
     </fieldset>
 
+    <div class="rules">
+      <p>🐾 預約前請先了解</p>
+      <ul>
+        <li>動物溝通是雙向的溝通和協調，沒辦法立即改善行為。</li>
+        <li>如果孩子身體不舒服或有明顯病徵，請先帶去看獸醫；溝通可以了解孩子的感受，但沒辦法判斷病名和嚴重程度。</li>
+        <li>溝通以文字訊息進行。</li>
+        <li>延時以 15 分鐘為一個單位，每單位 $500，未滿 15 分鐘以 15 分鐘計；如果後面已經有預約，就沒辦法延時。</li>
+        <!-- 付款期限和改期規則：填好後把下一行前後的註解符號刪掉，就會顯示在頁面上 -->
+        <!-- <li>確認後 ○ 天內完成付款；預約前 ○ 天可以改期一次。</li> -->
+        <li>目前不提供走失協尋和臨時急件服務。</li>
+      </ul>
+    </div>
+
     <p id="err" role="alert"></p>
     <button class="go" id="send" type="submit">送出預約</button>
-    <p class="note">目前不提供走失協尋、臨時急件服務。</p>
+    <p class="note">認同以上內容再送出預約唷，期待和你們見面 ♡</p>
   </form>
 
   <section id="done" hidden>
